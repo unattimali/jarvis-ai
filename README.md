@@ -111,7 +111,7 @@ Jarvis-AI-Assistant/
 ├── test.py          # Ollama Console Test
 ├── logo ai.jpeg
 ├── README.md
-└── requirements.txt
+
 ```
 
 ---
