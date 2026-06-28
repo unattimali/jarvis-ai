@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jarvis AI</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+:root{
+--bg:#030816;
+--card:#081326;
+--border:#13345d;
+--primary:#00cfff;
+--secondary:#0066ff;
+--text:#ffffff;
+--text2:#9fb5d3;
+}
+
+body{
+background:var(--bg);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+.container{
+width:98%;
+height:95vh;
+display:flex;
+border:1px solid var(--border);
+border-radius:30px;
+overflow:hidden;
+background:var(--bg);
+}
+
+/* Sidebar */
+
+.sidebar{
+width:280px;
+background:var(--card);
+border-right:1px solid var(--border);
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+padding:25px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:40px;
+}
+
+.logo img{
+width:60px;
+height:60px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #00cfff;
+
+box-shadow:
+0 0 10px #00cfff,
+0 0 20px #00cfff,
+0 0 40px #00cfff;
+}
+
+.logo h2{
+color:var(--text);
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.menu button{
+height:55px;
+background:var(--card);
+border:1px solid var(--border);
+color:var(--text);
+border-radius:15px;
+cursor:pointer;
+font-size:16px;
+text-align:left;
+padding-left:20px;
+transition:0.3s;
+}
+
+.menu button:hover{
+background:var(--primary);
+color:black;
+border-color:var(--primary);
+box-shadow:0 0 15px var(--primary);
+transform:translateX(5px);
+}
+
+.user-card{
+padding:20px;
+border:1px solid var(--border);
+border-radius:15px;
+color:var(--text);
+}
+
+/* Main */
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+height:80px;
+display:flex;
+justify-content:flex-end;
+align-items:center;
+padding:0 30px;
+border-bottom:1px solid var(--border);
+gap:20px;
+}
+
+.icon-btn{
+width:45px;
+height:45px;
+border-radius:50%;
+border:1px solid var(--border);
+display:flex;
+justify-content:center;
+align-items:center;
+color:var(--text);
+cursor:pointer;
+}
+
+.live-clock{
+padding:12px 18px;
+border-radius:15px;
+border:1px solid #00cfff;
+color:#00e5ff;
+font-weight:600;
+background:rgba(0,207,255,0.08);
+
+box-shadow:
+0 0 10px rgba(0,207,255,.3),
+0 0 20px rgba(0,207,255,.15);
+
+animation:clockGlow 3s infinite;
+}
+
+.clock-dot{
+display:inline-block;
+width:10px;
+height:10px;
+border-radius:50%;
+background:#00e5ff;
+margin-right:8px;
+
+box-shadow:
+0 0 10px #00e5ff,
+0 0 20px #00e5ff;
+
+animation:pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot{
+50%{
+opacity:.4;
+transform:scale(1.3);
+}
+}
+
+@keyframes clockGlow{
+
+0%{
+box-shadow:0 0 10px rgba(0,207,255,.3);
+}
+
+50%{
+box-shadow:
+0 0 20px rgba(0,207,255,.7),
+0 0 40px rgba(0,207,255,.3);
+}
+
+100%{
+box-shadow:0 0 10px rgba(0,207,255,.3);
+}
+
+}
+
+.hero{
+text-align:center;
+padding:30px 20px 10px;
+}
+
+.hero img{
+width:180px;
+height:180px;
+object-fit:cover;
+border-radius:50%;
+border:4px solid #00cfff;
+
+box-shadow:
+0 0 20px #00cfff,
+0 0 40px #00cfff,
+0 0 70px #0066ff;
+
+animation:pulse 3s infinite;
+}
+
+/* Add this below */
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+.hero h1{
+margin-top:15px;
+font-size:42px;
+color:var(--text);
+}
+
+.hero p{
+color:var(--text2);
+margin-top:10px;
+}
+
+.voice-wave{
+display:flex;
+justify-content:center;
+align-items:flex-end;
+gap:6px;
+height:50px;
+margin-top:20px;
+}
+
+
+
+/* Suggestions */
+
+.suggestions{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+padding:10px 20px;
+}
+
+.suggestions button{
+padding:10px 20px;
+background:var(--card);
+border:1px solid var(--border);
+color:var(--text);
+border-radius:30px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.suggestions button:hover{
+background:var(--primary);
+color:black;
+transform:translateY(-2px);
+}
+
+/* Chat */
+
+.chat-container{
+flex:1;
+overflow-y:auto;
+padding:20px;
+}
+
+.message{
+max-width:70%;
+padding:15px 20px;
+margin-bottom:15px;
+border-radius:18px;
+line-height:1.6;
+}
+
+.user{
+margin-left:auto;
+background:linear-gradient(45deg,#005cff,#008cff);
+color:white;
+}
+
+.bot{
+background:var(--card);
+border:1px solid var(--border);
+color:var(--text);
+}
+
+/* Input */
+
+.input-area{
+padding:20px;
+border-top:1px solid var(--border);
+}
+
+.input-box{
+display:flex;
+gap:10px;
+}
+
+.input-box input{
+flex:1;
+height:60px;
+background:var(--card);
+border:1px solid var(--border);
+outline:none;
+padding:0 20px;
+border-radius:20px;
+color:var(--text);
+font-size:16px;
+}
+
+.input-box button{
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:linear-gradient(45deg,#00cfff,#0066ff);
+color:white;
+cursor:pointer;
+font-size:18px;
+}
+
+.footer{
+text-align:center;
+color:#7d8ba5;
+font-size:12px;
+margin-top:10px;
+}
+
+/* Light Theme */
+
+.light{
+--bg:#f4f6fb;
+--card:#ffffff;
+--border:#d7dce7;
+--text:#111;
+--text2:#666;
+}
+
+.light body{
+background:#f4f6fb;
+}
+
+.light .container{
+background:white;
+}
+
+.light .sidebar{
+background:white;
+}
+
+.light .main{
+background:white;
+}
+
+.light .hero h1,
+.light .menu button,
+.light .user-card,
+.light .icon-btn{
+color:black;
+}
+
+.light .bot{
+color:black;
+background:#f5f7fb;
+}
+
+/* Theme Panel */
+
+.theme-panel{
+
+display:none;
+
+margin-top:20px;
+
+padding:15px;
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+background:var(--card);
+
+}
+
+.theme-panel h3{
+
+color:var(--text);
+
+margin-bottom:15px;
+
+text-align:center;
+
+}
+
+.theme-panel button{
+
+width:100%;
+
+margin-bottom:10px;
+
+height:45px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+background:var(--card);
+
+color:var(--text);
+
+border:1px solid var(--border);
+
+transition:0.3s;
+
+}
+
+.theme-panel button:hover{
+
+background:var(--primary);
+
+color:black;
+
+transform:scale(1.03);
+
+box-shadow:0 0 15px var(--primary);
+
+}
+
+/* ============================
+   Jarvis Thinking Animation
+============================ */
+
+.thinking-box{
+
+width:320px;
+
+padding:18px;
+
+margin-bottom:15px;
+
+background:var(--card);
+
+border:1px solid var(--primary);
+
+border-radius:18px;
+
+color:var(--text);
+
+box-shadow:0 0 20px rgba(0,207,255,.25);
+
+animation:fadeIn .3s;
+
+}
+
+.thinking-title{
+
+font-size:18px;
+
+font-weight:bold;
+
+margin-bottom:12px;
+
+color:var(--primary);
+
+}
+
+.thinking-status{
+
+font-size:15px;
+
+margin-top:8px;
+
+color:var(--text2);
+
+}
+
+.loading-bar{
+
+width:100%;
+
+height:6px;
+
+background:#1b2b45;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-top:15px;
+
+}
+
+.loading-fill{
+
+height:100%;
+
+width:0%;
+
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+
+animation:loading 2.5s linear forwards;
+
+}
+
+@keyframes loading{
+
+0%{
+
+width:0%;
+
+}
+
+100%{
+
+width:100%;
+
+}
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(10px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div>
+
+<div class="logo">
+<img src="logo ai.jpeg" alt="">
+<h2>JARVIS AI</h2>
+</div>
+
+<div class="menu">
+<button><i class="fa-solid fa-comments"></i> New Chat</button>
+<button><i class="fa-solid fa-clock"></i> History</button>
+<button><i class="fa-solid fa-folder"></i> Files</button>
+<button><i class="fa-solid fa-microphone"></i> Voice</button>
+<button id="themeSettingsBtn">
+<i class="fa-solid fa-palette"></i>
+Theme
+</button>
+
+<button>
+<i class="fa-solid fa-gear"></i>
+Settings
+</button>
+</div>
+
+</div>
+
+<div id="themePanel" class="theme-panel">
+
+<h3>🎨 Theme Customization</h3>
+
+<button onclick="changeTheme('blue')">
+🔵 Cyber Blue
+</button>
+
+<button onclick="changeTheme('green')">
+🟢 Matrix Green
+</button>
+
+<button onclick="changeTheme('purple')">
+🟣 Neon Purple
+</button>
+
+<button onclick="changeTheme('red')">
+🔴 Iron Red
+</button>
+
+<button onclick="changeTheme('light')">
+☀️ Light Theme
+</button>
+
+<button onclick="changeTheme('blue')">
+🌑 Dark Theme
+</button>
+
+</div>
+
+<div class="user-card">
+<h3>User</h3>
+<p>Free Plan</p>
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<div id="liveClock" class="live-clock">
+12:45 PM
+</div>
+
+<div class="icon-btn" id="themeBtn">
+    <i id="themeIcon" class="fa-solid fa-moon"></i>
+</div>
+
+<div class="icon-btn">
+<i class="fa-solid fa-user"></i>
+</div>
+
+</div>
+
+<div class="hero">
+
+<img src="logo ai.jpeg" alt="Jarvis Logo">
+
+<h1 id="greeting">Hello! I'm Jarvis AI</h1>
+
+<p>How can I help you today?</p>
+<div class="voice-wave">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+</div>
+
+<div class="suggestions">
+
+<button onclick="quickPrompt('Explain DBMS')">
+Explain DBMS
+</button>
+
+<button onclick="quickPrompt('Create HTML website')">
+Create Website
+</button>
+
+<button onclick="quickPrompt('Generate Python code')">
+Generate Code
+</button>
+
+<button onclick="quickPrompt('What is AI?')">
+What is AI?
+</button>
+
+</div>
+
+<div class="chat-container" id="chat">
+
+<div class="message bot">
+Welcome to Jarvis AI 🚀
+Ask me anything.
+</div>
+
+</div>
+
+<div class="input-area">
+
+<div class="input-box">
+
+<input
+type="text"
+id="userInput"
+placeholder="Type your message..."
+>
+
+<button id="voiceBtn">
+<i class="fa-solid fa-microphone"></i>
+</button>
+
+<button onclick="sendMessage()">
+<i class="fa-solid fa-paper-plane"></i>
+</button>
+
+</div>
+
+<div class="footer">
+Jarvis AI can make mistakes. Verify important information.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+
+const chat=document.getElementById("chat");
+const input=document.getElementById("userInput");
+const API_KEY = "571e4eed27cbf118d268a4e7c107a652";
+
+
+/* Show thinking */
+
+function showThinking(){
+
+const thinking=document.createElement("div");
+
+thinking.className="thinking-box";
+
+thinking.id="thinkingBox";
+
+thinking.innerHTML=`
+
+<div class="thinking-title">
+
+🤖 JARVIS
+
+</div>
+
+<div id="thinkingStatus" class="thinking-status">
+
+🧠 Understanding your request...
+
+</div>
+
+<div class="loading-bar">
+
+<div class="loading-fill"></div>
+
+</div>
+
+`;
+
+chat.appendChild(thinking);
+
+chat.scrollTop=chat.scrollHeight;
+
+setTimeout(()=>{
+
+const status=document.getElementById("thinkingStatus");
+
+if(status){
+
+status.innerHTML="🔎 Searching memory...";
+
+}
+
+},800);
+
+setTimeout(()=>{
+
+const status=document.getElementById("thinkingStatus");
+
+if(status){
+
+status.innerHTML="⚡ Generating response...";
+
+}
+
+},1700);
+
+}
+
+/* hide thinking */
+
+function hideThinking(){
+
+const box=document.getElementById("thinkingBox");
+
+if(box){
+
+box.remove();
+
+}
+
+}
+
+/* Send Message */
+
+function sendMessage(){
+
+const text=input.value.trim();
+
+if(text==="") return;
+
+addMessage(text,"user");
+
+input.value="";
+
+showThinking();
+
+fetch("http://127.0.0.1:5000/chat",{
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+        message:text
+    })
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+    hideThinking();
+
+    addMessage(data.reply,"bot");
+
+    saveChat();
+
+})
+
+.catch(error=>{
+
+    hideThinking();
+
+    addMessage("❌ Unable to connect to Jarvis.","bot");
+
+    console.log(error);
+
+});
+
+saveChat();
+
+}
+
+/* Add Message */
+
+function addMessage(text,type){
+
+const div=document.createElement("div");
+
+div.className=`message ${type}`;
+
+if(type==="bot"){
+
+    div.innerHTML = marked.parse(text);
+
+}
+else{
+
+    div.textContent = text;
+
+}
+
+chat.appendChild(div);
+
+chat.scrollTop = chat.scrollHeight;
+
+}
+
+/* Enter Key */
+
+input.addEventListener("keypress",e=>{
+
+if(e.key==="Enter"){
+sendMessage();
+}
+
+});
+
+/* Suggestions */
+
+function quickPrompt(text){
+
+input.value=text;
+
+sendMessage();
+
+}
+
+/* Theme Toggle */
+
+const themeBtn = document.getElementById("themeBtn");
+const themeIcon = document.getElementById("themeIcon");
+
+themeBtn.onclick = function () {
+
+    if(document.documentElement.classList.contains("light")){
+
+        changeTheme("blue");
+
+    }
+    else{
+
+        changeTheme("light");
+
+    }
+
+};
+
+/* Voice Recognition */
+
+if('webkitSpeechRecognition' in window){
+
+const recognition =
+new webkitSpeechRecognition();
+
+recognition.continuous = false;
+
+recognition.lang = "en-US";
+
+document
+.getElementById("voiceBtn")
+.onclick = ()=>{
+
+document.querySelector(".voice-wave")
+.classList.add("active");
+
+recognition.start();
+
+};
+
+recognition.onresult = (event)=>{
+
+input.value =
+event.results[0][0].transcript;
+
+document.querySelector(".voice-wave")
+.classList.remove("active");
+
+};
+
+recognition.onerror = ()=>{
+
+document.querySelector(".voice-wave")
+.classList.remove("active");
+
+};
+
+recognition.onend = ()=>{
+
+document.querySelector(".voice-wave")
+.classList.remove("active");
+
+};
+
+}
+
+/* Save Chat */
+
+function saveChat(){
+
+localStorage.setItem(
+"jarvisChat",
+chat.innerHTML
+);
+
+}
+
+/* Load Chat */
+
+const hour = new Date().getHours();
+
+let greet = "";
+
+if(hour < 12){
+    greet = "🌅 Good Morning";
+}
+else if(hour < 18){
+    greet = "☀️ Good Afternoon";
+}
+else{
+    greet = "🌙 Good Evening";
+}
+
+document.getElementById("greeting").innerHTML =
+`${greet}, I'm Jarvis AI`;
+
+/* Live Clock */
+
+function updateClock(){
+
+const now = new Date();
+
+let hours = now.getHours();
+let minutes = now.getMinutes();
+let seconds = now.getSeconds();
+
+const ampm = hours >= 12 ? "PM" : "AM";
+
+hours = hours % 12 || 12;
+
+minutes = String(minutes).padStart(2,"0");
+seconds = String(seconds).padStart(2,"0");
+
+document.getElementById("liveClock").innerHTML =
+`<span class="clock-dot"></span> ${hours}:${minutes}:${seconds} ${ampm}`;
+
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+/* Theme Panel */
+
+
+
+const themePanel = document.getElementById("themePanel");
+
+document.getElementById("themeSettingsBtn").onclick = function () {
+
+    themePanel.style.display =
+        themePanel.style.display === "block"
+            ? "none"
+            : "block";
+
+};
+
+function changeTheme(theme){
+
+    const root = document.documentElement;
+
+    document.documentElement.classList.remove("light");
+
+    switch(theme){
+
+        case "blue":
+
+            root.style.setProperty("--bg","#030816");
+            root.style.setProperty("--card","#081326");
+            root.style.setProperty("--border","#13345d");
+            root.style.setProperty("--primary","#00cfff");
+            root.style.setProperty("--secondary","#0066ff");
+            root.style.setProperty("--text","#ffffff");
+            root.style.setProperty("--text2","#9fb5d3");
+            break;
+
+        case "green":
+
+            root.style.setProperty("--bg","#02150b");
+            root.style.setProperty("--card","#06331d");
+            root.style.setProperty("--border","#0d6b3a");
+            root.style.setProperty("--primary","#00ff88");
+            root.style.setProperty("--secondary","#00bb55");
+            root.style.setProperty("--text","#ffffff");
+            root.style.setProperty("--text2","#b9ffd7");
+            break;
+
+        case "purple":
+
+            root.style.setProperty("--bg","#170021");
+            root.style.setProperty("--card","#28043d");
+            root.style.setProperty("--border","#5d1fa3");
+            root.style.setProperty("--primary","#bb00ff");
+            root.style.setProperty("--secondary","#7700ff");
+            root.style.setProperty("--text","#ffffff");
+            root.style.setProperty("--text2","#e1c6ff");
+            break;
+
+        case "red":
+
+            root.style.setProperty("--bg","#1d0505");
+            root.style.setProperty("--card","#350909");
+            root.style.setProperty("--border","#7d1b1b");
+            root.style.setProperty("--primary","#ff3333");
+            root.style.setProperty("--secondary","#cc0000");
+            root.style.setProperty("--text","#ffffff");
+            root.style.setProperty("--text2","#ffc7c7");
+            break;
+
+        case "light":
+
+            document.documentElement.classList.add("light");
+            break;
+
+    }
+
+    localStorage.setItem("theme", theme);
+
+}
+
+
+const savedTheme = localStorage.getItem("theme") || "blue";
+
+changeTheme(savedTheme);
+
+
+
+</script>
+
+
+</body>
+</html>
