@@ -121,7 +121,7 @@ Jarvis-AI-Assistant/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Jarvis-AI-Assistant.git
+git clone https://github.com/unattimali/Jarvis-AI-Assistant.git
 ```
 
 ### 2. Open Project
