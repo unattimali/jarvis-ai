@@ -1,3 +1,4 @@
+
 # 🤖 Jarvis AI Assistant
 
 Jarvis AI Assistant is a Python-based voice-controlled virtual assistant that can listen to user commands, respond through speech, and perform various automated tasks. The project demonstrates the integration of speech recognition, text-to-speech technology, and automation to create an interactive desktop assistant.
@@ -59,11 +60,11 @@ Through this project, I gained practical experience in:
 
 ## 👩‍💻 Developer
 
-**Unnati**
+**Unatti**
 
 Final Year Student | AI & Software Development Enthusiast
 
-GitHub: https://github.com/unnaticreates
+GitHub: https://github.com/unattimali
 
 ## ⭐ Project Goal
 
